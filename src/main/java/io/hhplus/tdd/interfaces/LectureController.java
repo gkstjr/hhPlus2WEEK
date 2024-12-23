@@ -1,7 +1,7 @@
 package io.hhplus.tdd.interfaces;
 
 import io.hhplus.tdd.domain.ApplyLecture;
-import io.hhplus.tdd.domain.Lecture;
+import io.hhplus.tdd.domain.Lecture.Lecture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

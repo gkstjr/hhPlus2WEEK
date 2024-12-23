@@ -1,11 +1,9 @@
-package io.hhplus.tdd.service;
+package io.hhplus.tdd.domain.Lecture;
 
 import io.hhplus.tdd.domain.ApplyLecture;
 import org.springframework.stereotype.Repository;
 
-import java.util.Objects;
-
 @Repository
-public interface LectureRepository {
+public interface ILectureRepository {
     ApplyLecture save(Long id);
 }

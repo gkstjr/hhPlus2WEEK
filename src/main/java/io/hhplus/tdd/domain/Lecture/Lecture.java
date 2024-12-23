@@ -1,4 +1,4 @@
-package io.hhplus.tdd.domain;
+package io.hhplus.tdd.domain.Lecture;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,8 +1,8 @@
 package io.hhplus.tdd.domain;
 
+import io.hhplus.tdd.domain.Lecture.Lecture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.annotation.Testable;
 
 import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.*;

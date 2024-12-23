@@ -1,7 +1,9 @@
 package io.hhplus.tdd.service;
 
+import io.hhplus.tdd.domain.Lecture.ILectureRepository;
 import io.hhplus.tdd.domain.ApplyLecture;
-import io.hhplus.tdd.domain.Lecture;
+import io.hhplus.tdd.domain.Lecture.Lecture;
+import io.hhplus.tdd.domain.Lecture.LectureApplicationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,14 +11,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Objects;
-import java.util.Optional;
-
 @ExtendWith(MockitoExtension.class)
 public class LectureApplicationServiceTest {
 
     @Mock
-    private LectureRepository lectureRepository;
+    private ILectureRepository ILectureRepository;
     @InjectMocks
     private LectureApplicationService lectureService;
 
@@ -29,7 +28,7 @@ public class LectureApplicationServiceTest {
                             .maxStudent(30)
                             .build();
         //given
-        Mockito.when(lectureRepository.save(lecture.getId())).thenReturn(new ApplyLecture());
+        Mockito.when(ILectureRepository.save(lecture.getId())).thenReturn(new ApplyLecture());
         //then
     }
 }

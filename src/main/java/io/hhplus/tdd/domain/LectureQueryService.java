@@ -1,4 +1,4 @@
-package io.hhplus.tdd.service;
+package io.hhplus.tdd.domain;
 
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,7 @@
-package io.hhplus.tdd.service;
+package io.hhplus.tdd.application;
 
+import io.hhplus.tdd.domain.Lecture.LectureApplicationService;
+import io.hhplus.tdd.domain.LectureQueryService;
 import org.springframework.stereotype.Service;
 
 @Service
