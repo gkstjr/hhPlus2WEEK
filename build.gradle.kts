@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     id("jacoco")
+    kotlin("plugin.jpa") version "1.9.0" // JPA 플러그인 추가
 }
 
 configurations {
@@ -30,6 +31,13 @@ dependencies {
     //프로젝트 설정파일 수정 안하기 위해 libs로 통일 x
     implementation("org.springframework.boot:spring-boot-starter-validation")
     testImplementation("org.assertj:assertj-core:3.24.2")
+    // Spring Boot JPA 의존성
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // Database Driver (H2, MySQL 등)
+    implementation("com.h2database:h2") // H2 데이터베이스 사용 시
+    implementation("mysql:mysql-connector-java:8.0.33") // 적절한 버전 사용
+
 }
 
 // about source and compilation
