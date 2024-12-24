@@ -19,7 +19,8 @@ public class LectureTest {
                 .round(1)
                 .studentCount(20)
                 .maxStudent(30)
-                .dateTime(LocalDateTime.now())
+                .startTime(LocalDateTime.now())
+                .endTime(LocalDateTime.now().plusHours(1))
                 .build();
 
         lecture2 = Lecture.builder()
@@ -27,7 +28,8 @@ public class LectureTest {
                 .round(1)
                 .studentCount(29)
                 .maxStudent(30)
-                .dateTime(LocalDateTime.now())
+                .startTime(LocalDateTime.now())
+                .endTime(LocalDateTime.now().plusHours(1))
                 .build();
     }
 

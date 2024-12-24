@@ -1,9 +1,12 @@
 package io.hhplus.tdd.domain.Lecture;
 
-import io.hhplus.tdd.domain.ApplyLecture;
+import io.hhplus.tdd.domain.applylecture.ApplyLecture;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface ILectureRepository {
-    ApplyLecture save(Long id);
+
+    Optional<Lecture> findById(long lectureId);
 }
