@@ -5,7 +5,9 @@ import io.hhplus.tdd.domain.User.User;
 import io.hhplus.tdd.domain.lectureschedule.ILectureScheduleRepository;
 import io.hhplus.tdd.domain.lectureschedule.LectureSchedule;
 import io.hhplus.tdd.domain.applylectureschedule.dto.LectureApplyCommand;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,9 +30,12 @@ public class ApplyLectureScheduleService {
     }
 
     //특강 신청
+    @Transactional
     public ApplyLectureSchedule apply(LectureApplyCommand command) {
-        LectureSchedule findLectureSchedule = iLectureScheduleRepository.findById(command.lectureScheduleId())
+        //비관적 락(쓰기만 적용)
+        LectureSchedule findLectureSchedule = iLectureScheduleRepository.findByIdWithLock(command.lectureScheduleId())
                 .orElseThrow(() -> new IllegalArgumentException("신청하신 특강이 없습니다. lectureId : " + command.lectureScheduleId()));
+
         //TODO 유저 리퍼지토리로 가져오기(기존 애플리케이션이라면 security로 처리
         User user = iUserRepository.findById(command.userId())
                 .orElseThrow(() -> new IllegalArgumentException("신청한 사용자 Id가 없습니다."));
@@ -42,6 +47,11 @@ public class ApplyLectureScheduleService {
         findLectureSchedule.apply(); //조회된 특강 초과 인원 체크 및 추가
         ApplyLectureSchedule applyLectureSchedule = new ApplyLectureSchedule(user ,findLectureSchedule);
 
-        return iApplyLectureScheduleRepository.save(applyLectureSchedule);
+        //동시성 제어를 위한 복합 유니크 제약 설정
+        try {
+            return iApplyLectureScheduleRepository.save(applyLectureSchedule);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("동일사용자가 동일한 강의를 중복 신청할 수 없습니다.");
+        }
     }
 }

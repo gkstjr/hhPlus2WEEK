@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(
+        name = "apply_lecture_schedule",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "lecture_schedule_id"})
+)
 public class ApplyLectureSchedule {
 
     @Id

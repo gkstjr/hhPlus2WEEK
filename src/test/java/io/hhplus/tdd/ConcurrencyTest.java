@@ -53,7 +53,7 @@ public class ConcurrencyTest {
         for(int i = 0 ; i < threads; i++) {
             userRepository.save(User.builder()
                             .name("김한석" + i)
-                    .build());
+                            .build());
         }
         iLectureRepository.save(requestLecture);
         lectureScheduleRepository.save(lectureSchedule);
@@ -87,5 +87,55 @@ public class ConcurrencyTest {
 
         assertThat(successApplyList.size()).isEqualTo(30);
         assertThat(successLectureSchedule.getStudentCount()).isEqualTo(30);
+    }
+
+    @Test
+    void 동일한_유저가_동일한_특강_5번_신청시_1번만_성공_동시성테스트() throws InterruptedException {
+        // Given
+        Lecture requestLecture = Lecture.builder()
+                .title("미스터킴의 소름끼치는 자바 특강")
+                .teacher("미스터킴")
+                .build();
+        iLectureRepository.save(requestLecture);
+        User user = User.builder()
+                .name("기만석")
+                .build();
+        userRepository.save(user);
+
+        LectureSchedule lectureSchedule = LectureSchedule.builder()
+                .lecture(requestLecture)
+                .maxStudent(30)
+                .studentCount(0)
+                .build();
+        lectureScheduleRepository.save(lectureSchedule);
+
+        long scheduleId = lectureSchedule.getId();
+        long userId = user.getId();
+
+        int threads = 5; // 동일 유저의 신청 시도 횟수
+        ExecutorService executorService = Executors.newFixedThreadPool(threads);
+        CountDownLatch latch = new CountDownLatch(threads);
+
+        // When
+        for (int i = 0; i < threads; i++) {
+            executorService.execute(() -> {
+                try {
+                    applyLectureScheduleService.apply(new LectureApplyCommand(userId, scheduleId));
+                } catch (Exception e) {
+                    System.out.println("중복예외 발생 = " + e.getMessage());
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        latch.await();
+
+        // Then
+        List<ApplyLectureSchedule> appliyList = applyLectureScheduleRepository.findAll();
+
+        assertThat(appliyList.size()).isEqualTo(1);
+        assertThat(appliyList.get(0).getUser().getId()).isEqualTo(userId);
+        assertThat(appliyList.get(0).getLectureSchedule().getId()).isEqualTo(scheduleId);
     }
 }
