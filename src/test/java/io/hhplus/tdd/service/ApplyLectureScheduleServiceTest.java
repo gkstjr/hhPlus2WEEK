@@ -38,7 +38,7 @@ public class ApplyLectureScheduleServiceTest {
         //given
         long lectureId = 1L;
 
-        Mockito.when(iLectureScheduleRepository.findById(lectureId)).thenReturn(Optional.empty());
+        Mockito.when(iLectureScheduleRepository.findByIdWithLock(lectureId)).thenReturn(Optional.empty());
         //when
         //then
         assertThatThrownBy(() -> lectureScheduleService.apply(new LectureApplyCommand(lectureId , 1)))
@@ -72,7 +72,7 @@ public class ApplyLectureScheduleServiceTest {
         List<ApplyLectureSchedule> list = new ArrayList<>();
         list.add(duplicatedApplySchedule);
 
-        Mockito.when(iLectureScheduleRepository.findById(1L)).thenReturn(Optional.of(requestSchedule)); //회차별 특정 강의 조회
+        Mockito.when(iLectureScheduleRepository.findByIdWithLock(1L)).thenReturn(Optional.of(requestSchedule)); //회차별 특정 강의 조회
         Mockito.when(iApplyLectureScheduleRepository.findAllByUserId(user.getId())).thenReturn(list);
         Mockito.when(iUserRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
@@ -114,7 +114,7 @@ public class ApplyLectureScheduleServiceTest {
         List<ApplyLectureSchedule> list = new ArrayList<>();
         list.add(duplicatedApplySchedule);
 
-        Mockito.when(iLectureScheduleRepository.findById(lectureScheduleId)).thenReturn(Optional.of(requestSchedule));
+        Mockito.when(iLectureScheduleRepository.findByIdWithLock(lectureScheduleId)).thenReturn(Optional.of(requestSchedule));
         Mockito.when(iApplyLectureScheduleRepository.findAllByUserId(userId)).thenReturn(list);
         Mockito.when(iUserRepository.findById(userId)).thenReturn(Optional.of(new User()));
         //when
@@ -160,7 +160,7 @@ public class ApplyLectureScheduleServiceTest {
         List<ApplyLectureSchedule> list = new ArrayList<>();
         list.add(existingApplySchedule);
 
-        Mockito.when(iLectureScheduleRepository.findById(requestSchedule.getId())).thenReturn(Optional.of(requestSchedule));
+        Mockito.when(iLectureScheduleRepository.findByIdWithLock(requestSchedule.getId())).thenReturn(Optional.of(requestSchedule));
         Mockito.when(iApplyLectureScheduleRepository.findAllByUserId(user.getId())).thenReturn(list);
         Mockito.when(iUserRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
@@ -207,7 +207,7 @@ public class ApplyLectureScheduleServiceTest {
         List<ApplyLectureSchedule> list = new ArrayList<>();
         list.add(existingApplySchedule);
 
-        Mockito.when(iLectureScheduleRepository.findById(requestSchedule.getId())).thenReturn(Optional.of(requestSchedule));
+        Mockito.when(iLectureScheduleRepository.findByIdWithLock(requestSchedule.getId())).thenReturn(Optional.of(requestSchedule));
         Mockito.when(iApplyLectureScheduleRepository.findAllByUserId(user.getId())).thenReturn(list);
         Mockito.when(iUserRepository.findById(user.getId())).thenReturn(Optional.of(user));
         Mockito.when(iApplyLectureScheduleRepository.save(Mockito.any(ApplyLectureSchedule.class)))

@@ -15,4 +15,6 @@ public interface ILectureScheduleRepository {
     List<LectureSchedule> findAllByDate(LocalDate date);
 
     void deleteAll();
+
+    Optional<LectureSchedule> findByIdWithLock(long id);
 }

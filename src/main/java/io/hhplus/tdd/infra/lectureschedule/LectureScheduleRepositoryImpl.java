@@ -34,4 +34,9 @@ public class LectureScheduleRepositoryImpl implements ILectureScheduleRepository
     public void deleteAll() {
         jpaLectureSchedule.deleteAll();
     }
+
+    @Override
+    public Optional<LectureSchedule> findByIdWithLock(long id) {
+        return jpaLectureSchedule.findByIdWithLock(id);
+    }
 }
