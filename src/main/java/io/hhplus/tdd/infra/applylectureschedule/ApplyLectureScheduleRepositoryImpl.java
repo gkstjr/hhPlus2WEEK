@@ -34,4 +34,9 @@ public class ApplyLectureScheduleRepositoryImpl implements IApplyLectureSchedule
         jpaApplyLectureSchedule.deleteAll();
     }
 
+    @Override
+    public List<ApplyLectureSchedule> findAll() {
+        return jpaApplyLectureSchedule.findAll();
+    }
+
 }

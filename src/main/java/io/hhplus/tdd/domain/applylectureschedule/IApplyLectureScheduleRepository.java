@@ -14,4 +14,6 @@ public interface IApplyLectureScheduleRepository {
     Optional<ApplyLectureSchedule> findByLectureScheduleId(long ScheduleId);
 
     void deleteAll();
+
+    List<ApplyLectureSchedule> findAll();
 }
