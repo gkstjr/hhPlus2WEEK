@@ -2,6 +2,8 @@ package io.hhplus.tdd.service;
 
 import io.hhplus.tdd.domain.Lecture.Lecture;
 import io.hhplus.tdd.domain.User.IUserRepository;
+import io.hhplus.tdd.domain.User.User;
+import io.hhplus.tdd.domain.applylectureschedule.ApplyLectureSchedule;
 import io.hhplus.tdd.domain.applylectureschedule.ApplyLectureScheduleService;
 import io.hhplus.tdd.domain.applylectureschedule.IApplyLectureScheduleRepository;
 import io.hhplus.tdd.domain.lectureschedule.ILectureScheduleRepository;
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +30,8 @@ public class LectureScheduleQueryServiceTest {
 
     @InjectMocks
     private LectureScheduleQueryService queryService;
+    @Mock
+    private IApplyLectureScheduleRepository applyLectureScheduleRepository;
     @Mock
     private ILectureScheduleRepository iLectureScheduleRepository;
     @Test
@@ -134,5 +139,34 @@ public class LectureScheduleQueryServiceTest {
         assertThat(getSchedules.get(0).getId()).isEqualTo(schedule1.getId());
         assertThat(getSchedules.get(0).getStartTime()).isEqualTo(schedule1.getStartTime());
         assertThat(getSchedules.get(1).getId()).isEqualTo(schedule2.getId());
-        assertThat(getSchedules.get(1).getStartTime()).isEqualTo(schedule2.getStartTime());    }
+        assertThat(getSchedules.get(1).getStartTime()).isEqualTo(schedule2.getStartTime());
+    }
+
+    @Test
+    void 신청완료한_특강_조회_성공() {
+        // Given
+        User user = new User(1 ,"기만석");
+
+        Lecture lecture = Lecture.builder()
+                .title("미스터킴의 소름끼치는 자바 특강")
+                .teacher("미스터킴")
+                .build();
+        LectureSchedule schedule = LectureSchedule.builder()
+                .lecture(lecture)
+                .startTime(LocalDateTime.now())
+                .endTime(LocalDateTime.now().plusHours(1))
+                .build();
+        List<ApplyLectureSchedule> list = new ArrayList<>();
+        list.add(new ApplyLectureSchedule(1L , user , schedule));
+        Mockito.when(applyLectureScheduleRepository.findAllByUserId(user.getId())).thenReturn(list);
+
+        // When
+        List<ApplyLectureSchedule> result = queryService.getCompletedLectures(user.getId());
+
+        // Then
+        ApplyLectureSchedule applyLecture = result.get(0);
+        assertThat(applyLecture.getLectureSchedule().getId()).isEqualTo(schedule.getId());
+        assertThat(applyLecture.getLectureSchedule().getLecture().getTitle()).isEqualTo("미스터킴의 소름끼치는 자바 특강");
+        assertThat(applyLecture.getLectureSchedule().getLecture().getTeacher()).isEqualTo("미스터킴");
+    }
 }
