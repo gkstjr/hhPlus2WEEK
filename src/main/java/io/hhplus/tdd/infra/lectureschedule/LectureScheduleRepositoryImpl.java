@@ -29,4 +29,9 @@ public class LectureScheduleRepositoryImpl implements ILectureScheduleRepository
     public List<LectureSchedule> findAllByDate(LocalDate date) {
         return jpaLectureSchedule.findAllByDate(date);
     }
+
+    @Override
+    public void deleteAll() {
+        jpaLectureSchedule.deleteAll();
+    }
 }

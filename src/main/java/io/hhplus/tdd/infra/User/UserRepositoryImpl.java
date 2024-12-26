@@ -24,4 +24,11 @@ public class UserRepositoryImpl implements IUserRepository {
     public User save(User user) {
         return jpaUserRepo.save(user);
     }
+
+    @Override
+    public void deleteAll() {
+        jpaUserRepo.deleteAll();
+    }
+
+
 }

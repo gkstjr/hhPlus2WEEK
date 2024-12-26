@@ -13,4 +13,6 @@ public interface ILectureScheduleRepository {
     LectureSchedule save(LectureSchedule lectureSchedule);
 
     List<LectureSchedule> findAllByDate(LocalDate date);
+
+    void deleteAll();
 }

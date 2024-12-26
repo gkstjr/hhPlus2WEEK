@@ -18,4 +18,9 @@ public class LectureRepositoryImpl implements ILectureRepository {
     public Lecture save(Lecture lecture) {
         return jpaLectureRepo.save(lecture);
     }
+
+    @Override
+    public void deleteAll() {
+        jpaLectureRepo.deleteAll();
+    }
 }

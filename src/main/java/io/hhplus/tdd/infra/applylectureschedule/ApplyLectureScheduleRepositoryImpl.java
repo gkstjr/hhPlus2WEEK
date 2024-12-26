@@ -1,4 +1,4 @@
-package io.hhplus.tdd.infra.applylecture;
+package io.hhplus.tdd.infra.applylectureschedule;
 
 import io.hhplus.tdd.domain.applylectureschedule.ApplyLectureSchedule;
 import io.hhplus.tdd.domain.applylectureschedule.IApplyLectureScheduleRepository;
@@ -27,6 +27,11 @@ public class ApplyLectureScheduleRepositoryImpl implements IApplyLectureSchedule
     @Override
     public Optional<ApplyLectureSchedule> findByLectureScheduleId(long scheduleId) {
         return jpaApplyLectureSchedule.findByLectureScheduleId(scheduleId);
+    }
+
+    @Override
+    public void deleteAll() {
+        jpaApplyLectureSchedule.deleteAll();
     }
 
 }

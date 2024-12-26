@@ -6,4 +6,6 @@ public interface IUserRepository {
    Optional<User> findById(long id);
 
     User save(User user);
+
+    void deleteAll();
 }

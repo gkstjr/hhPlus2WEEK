@@ -12,4 +12,6 @@ public interface IApplyLectureScheduleRepository {
     List<ApplyLectureSchedule> findAllByUserId(long userId);
 
     Optional<ApplyLectureSchedule> findByLectureScheduleId(long ScheduleId);
+
+    void deleteAll();
 }
